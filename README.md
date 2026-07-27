@@ -1,10 +1,12 @@
 # 🌍 Weather Vibe Dashboard
 
-[![Python Version](https://shields.io)](https://python.org)
-[![Platform](https://shields.io)]()
-[![License](https://shields.io)]()
+![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue)
 
-A sleek, beginner-friendly Python desktop GUI application built using `tkinter`. This app instantly transforms its visual aesthetic, color palettes, and ambient descriptors by analyzing the distinct temperature profile of user-submitted global cities.
+*Platform:** `Windows` | `macOS` | `Linux`
+
+---
+
+💡A sleek, beginner-friendly Python desktop GUI application built using `tkinter`. This app instantly transforms its visual aesthetic, color palettes, and ambient descriptors by analyzing the distinct temperature profile of user-submitted global cities.
 
 ---
 
@@ -40,7 +42,7 @@ The interface dynamically alters its hex-code canvas background based on simulat
 
 ### 🔮 Future Roadmap Space
 
-- [ ] Connect live network adapters via built-in `urllib.request`.
-- [ ] Integrate local audio file playback nodes (`pygame`) to trigger ambient soundscapes matching the theme color.
-- [ ] Implement custom image rendering overlays (`.png` textures).
+- 📊 Connect live network adapters via built-in `urllib.request`.
+- 📊 Integrate local audio file playback nodes (`pygame`) to trigger ambient soundscapes matching the theme color.
+- 📊 Implement custom image rendering overlays (`.png` textures).
 -
