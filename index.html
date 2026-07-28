@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Dynamic Weather App</title>
+    <style>
+        /* Modern CSS layout with backdrop-filter styles */
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* High-quality default geometric mesh gradient background */
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) no-repeat center center/cover;
+            transition: background 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 350px;
+            color: #ffffff;
+            transform: translateY(0);
+            transition: all 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px 16px;
+            font-size: 15px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        button {
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 14px;
+            border: none;
+            background: #ffffff;
+            color: #1e3c72;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        button:hover {
+            background: #f0f0f0;
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .weather-display {
+            margin-top: 30px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .temp-display {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin: 15px 0 5px 0;
+            line-height: 1;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .desc-display {
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: capitalize;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-weight: 500;
+            margin-top: 20px;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Python Weather Engine</h2>
+        <form class="search-box" method="POST">
+            <input type="text" name="city" placeholder="Enter city name..." required autocomplete="off">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if weather %}
+            {% if weather.error %}
+                <p class="error-message">{{ weather.error }}</p>
+            {% else %}
+                <div class="weather-display">
+                    <h3 style="font-size: 1.4rem; margin: 0; font-weight: 500;">{{ weather.city }}</h3>
+                    <h1 class="temp-display">{{ weather.temp }}°C</h1>
+                    <p class="desc-display">{{ weather.desc }}</p>
+                </div>
+
+                <!-- JavaScript swaps high-definition photography backdrops depending on conditions -->
+                <script>
+                    const condition = "{{ weather.main_condition }}".toLowerCase();
+                    const body = document.body;
+
+                    if (condition.includes("clear")) {
+                        body.style.backgroundImage = "url('https://unsplash.com')"; 
+                    } else if (condition.includes("cloud")) {
+                        body.style.backgroundImage = "url('https://unsplash.com')"; 
+                    } else if (condition.includes("rain") || condition.includes("drizzle") || condition.includes("thunderstorm")) {
+                        body.style.backgroundImage = "url('https://unsplash.com')"; 
+                    } else if (condition.includes("snow")) {
+                        body.style.backgroundImage = "url('https://unsplash.com')"; 
+                    } else if (condition.includes("mist") || condition.includes("fog") || condition.includes("haze")) {
+                        body.style.backgroundImage = "url('https://unsplash.com')";
+                    }
+                </script>
+            {% endif %}
+        {% endif %}
+    </div>
+
+</body>
+</html>
