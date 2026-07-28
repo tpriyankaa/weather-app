@@ -1,57 +1,49 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import requests
-import os
 
-# Absolute path configurations so Flask never loses your files
-base_dir = os.path.dirname(os.path.abspath(__file__))
-template_dir = os.path.join(base_dir, 'templates')
-app = Flask(__name__, template_folder=template_dir)
+# 1. Page Configuration (No HTML required!)
+st.set_page_config(page_title="Weather Engine", page_icon="🌤️", layout="centered")
 
-# Replace with your actual OpenWeatherMap API Key
+st.title("Python Weather Engine")
+st.write("Enter a city name below to fetch real-time atmospheric data.")
+
+# 2. Add your real OpenWeatherMap API Key here
 API_KEY = "YOUR_API_KEY_HERE"
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    # Python sets a default neutral background image for the initial page load
-    bg_image = "https://unsplash.com"
-    html_output = ""
+# 3. Form input and search button
+city = st.text_input("Enter city name...", placeholder="e.g., London, Mumbai, New York")
 
-    if request.method == "POST":
-        city = request.form.get("city")
-        if city:
-            url = f"http://openweathermap.org{city}&appid={API_KEY}&units=metric"
+if st.button("Search Weather", type="primary"):
+    if city:
+        url = f"http://openweathermap.org{city}&appid={API_KEY}&units=metric"
+        try:
             response = requests.get(url).json()
 
+            # 4. Check if the server answers cleanly
             if response.get("cod") == 200:
-                condition = response["weather"][0]["main"].lower()
+                name = response["name"]
                 temp = round(response["main"]["temp"])
                 desc = response["weather"][0]["description"].capitalize()
-                name = response["name"]
+                humidity = response["main"]["humidity"]
+                wind_speed = round(response["wind"]["speed"] * 3.6, 1) # Convert m/s to km/h
 
-                # Python decides the background image asset natively
-                if "clear" in condition:
-                    bg_image = "https://unsplash.com"
-                elif "cloud" in condition:
-                    bg_image = "https://unsplash.com"
-                elif "rain" in condition or "drizzle" in condition or "thunderstorm" in condition:
-                    bg_image = "https://unsplash.com"
-                elif "snow" in condition:
-                    bg_image = "https://unsplash.com"
-                elif "mist" in condition or "fog" in condition or "haze" in condition:
-                    bg_image = "https://unsplash.com"
+                # 5. Build a premium layout instantly using pure Python
+                st.markdown("---")
+                st.subheader(f"📍 {name}")
+                st.metric(label="Current Temperature", value=f"{temp}°C")
+                st.write(f"**Sky Condition:** {desc}")
 
-                # Python constructs the interface components directly
-                html_output = f"""
-                    <div class='weather-display'>
-                        <h3 style='font-size: 1.4rem; margin: 0; font-weight: 500;'>{name}</h3>
-                        <h1 class='temp-display'>{temp}°C</h1>
-                        <p style='text-transform: capitalize; margin: 5px 0 0 0;'>{desc}</p>
-                    </div>
-                """
+                # Create two clean informational columns side-by-side
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.info(f"💧 **Humidity:** {humidity}%")
+                with col2:
+                    st.info(f"💨 **Wind Speed:** {wind_speed} km/h")
+                    
             else:
-                html_output = "<p class='error-message'>City not found! Please try again.</p>"
-
-    return render_template("index.html", content=html_output, background=bg_image)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+                st.error("City not found! Please check your spelling and try again.")
+        except Exception:
+            st.error("Network connection failed. Could not reach weather servers.")
+    else:
+        st.warning("Please type a city name first.")
+        
